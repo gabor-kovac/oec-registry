@@ -247,35 +247,39 @@ class ExpansionTable extends React.Component {
   }
 
   filterAssets() {
-    // TODO: This was a bit hard to get back into, maybe it can be simplified
-    // Filter assetList to be displayed
-    return Object.keys(this.props.assetLookup) // TODO: Maybe get this to another place?
-        .filter((key) => {
-          if (this.state.filterWord === '') {
-            return true;
-          }
-          Object.keys(this.props.assetLookup[key].resources.mam).forEach(items => {
-            if (items === 'Manufacturer') {
-              try {
-                if (this.props.assetLookup[key].resources.mam[items].text.includes(this.state.filterWord)) {
-                  return true;
-                }
-              } catch {
-                return true;
-              }
-            }
-            if (typeof this.props.assetLookup[key].resources.mam[items] === 'string') { // No try-catch like above necessary, because we already check for string type
-              if (this.props.assetLookup[key].resources.mam[items].includes(this.state.filterWord)) {
-                return true;
-              }
-            }
-          });
+    // Filter assetList to be displayed on any property inside mam
+    return Object.keys(this.props.assetLookup)
+      .filter((key) => {
+        if (this.state.filterWord === '') {
+          return true;
+        }
+
+        const mam = this.props.assetLookup[key].resources?.MAM;
+        if (!mam) {
           return false;
-        }) // Filter only keeps the oi4Ids of the assets passing through it
-        .reduce((obj, key) => { // Reduce creates an array with actual assets from the oi4Ids
-          obj[key] = this.props.assetLookup[key];
-          return obj;
-        }, {});
+        }
+        const filterLower = this.state.filterWord.toLowerCase();
+        
+        // Recursively search through all properties
+        const searchInValue = (value) => {
+          if (typeof value === 'string') {
+            return value.toLowerCase().includes(filterLower);
+          }
+          if (typeof value === 'number') {
+            return value.toString().toLowerCase().includes(filterLower);
+          }
+          if (typeof value === 'object' && value !== null) {
+            return Object.values(value).some(searchInValue);
+          }
+          return false;
+        };
+        
+        return Object.values(mam).some(searchInValue);
+      })
+      .reduce((obj, key) => {
+        obj[key] = this.props.assetLookup[key];
+        return obj;
+      }, {});
   }
 
   /**
