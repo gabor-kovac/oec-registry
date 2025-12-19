@@ -1,7 +1,7 @@
 {
-  "name": "@oi4/oi4-registry-service",
-  "version": "1.1.0-preview.9",
-  "description": "Acts as the application in a running OI4 container",
+  "name": "@gabor-kovac/oi4-registry-service",
+  "version": "1.1.1",
+  "description": "Backend service OI4 registry",
   "author": "Open Industry 4.0 Alliance - Community",
   "license": "MIT",
   "private": false,
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/OI4/oi4-registry.git"
+    "url": "git@github.com:gabor-kovac/oec-registry.git"
   },
   "dependencies": {
     "@oi4/oi4-oec-dnp-encoding": "^1.1.0-preview.13",
@@ -69,9 +69,9 @@
     "prepareContainer:service": "./scripts/prepare_container.sh"
   },
   "bugs": {
-    "url": "https://github.com/OI4/oi4-registry/issues"
+    "url": "https://github.com/gabor-kovac/oec-registry/issues"
   },
-  "homepage": "https://github.com/OI4/oi4-registry#readme",
+  "homepage": "https://github.com/gabor-kovac/oec-registry",
   "directories": {
     "test": "tests"
   }

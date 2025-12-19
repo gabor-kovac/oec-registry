@@ -15,32 +15,32 @@ import namur_normal_0 from './Images/namur_normal_0.png';
 import namur_failure_1 from './Images/namur_failure_1.png';
 import namur_off_spec_3 from './Images/namur_off_spec_3.png';
 
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-
-import {createTheme, MuiThemeProvider, withStyles} from '@material-ui/core/styles';
+import { createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 
-import Checkbox from '@material-ui/core/Checkbox';
-import Toolbar from '@material-ui/core/Toolbar';
-import AppBar from '@material-ui/core/AppBar';
-
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AppBar from '@mui/material/AppBar';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import Box from '@mui/material/Box';
+import Brightness3 from '@mui/icons-material/Brightness3';
+import BrightnessHigh from '@mui/icons-material/BrightnessHigh';
+import Checkbox from '@mui/material/Checkbox';
+import Close from '@mui/icons-material/Close';
+import CssBaseline from '@mui/material/CssBaseline';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import FileCopy from '@mui/icons-material/FileCopy';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import MaterialTable from 'material-table';
-
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Box,
-    IconButton,
-    InputAdornment,
-    Snackbar,
-    TextField,
-    Tooltip,
-    Typography,
-} from '@material-ui/core';
-
-import CssBaseline from '@material-ui/core/CssBaseline';
-import {Brightness3, BrightnessHigh, Close, ExpandMore, FileCopy,} from '@material-ui/icons';
+import Snackbar from '@mui/material/Snackbar';
+import TextField from '@mui/material/TextField';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
 import _ from 'lodash';
 import {reject} from 'q';
@@ -52,40 +52,40 @@ import ExpansionTable from './Components/ExpansionTable.jsx';
 
 // const pjson = require('../../package.json');
 
-const darkTheme = createTheme({
-    palette: {
-        secondary: {
-            light: '#80e27e',
-            main: '#4caf50',
-            dark: '#087f23',
-            contrastText: '#fff',
-        },
-        primary: {
-            light: '#8559da',
-            main: '#512da8',
-            dark: '#140078',
-            contrastText: '#000',
-        },
-        type: 'dark',
-    },
-});
+// const darkTheme = createTheme({
+//     palette: {
+//         secondary: {
+//             light: '#80e27e',
+//             main: '#4caf50',
+//             dark: '#087f23',
+//             contrastText: '#fff',
+//         },
+//         primary: {
+//             light: '#8559da',
+//             main: '#512da8',
+//             dark: '#140078',
+//             contrastText: '#000',
+//         },
+//         type: 'dark',
+//     },
+// });
 
-const lightTheme = createTheme({
-    palette: {
-        secondary: {
-            light: '#80e27e',
-            main: '#4caf50',
-            dark: '#087f23',
-            contrastText: '#fff',
-        },
-        primary: {
-            light: '#8559da',
-            main: '#512da8',
-            dark: '#140078',
-            contrastText: '#000',
-        },
-    }
-});
+// const lightTheme = createTheme({
+//     palette: {
+//         secondary: {
+//             light: '#80e27e',
+//             main: '#4caf50',
+//             dark: '#087f23',
+//             contrastText: '#fff',
+//         },
+//         primary: {
+//             light: '#8559da',
+//             main: '#512da8',
+//             dark: '#140078',
+//             contrastText: '#000',
+//         },
+//     }
+// });
 
 const styles = theme => ({
     root: {
@@ -96,11 +96,20 @@ const styles = theme => ({
         flexDirection: 'column',
     },
     paper: {
-        padding: theme.spacing(2),
-        marginTop: theme.spacing(3),
+        padding: 4,
+        marginTop: 6,
         width: '100%',
         overflowX: 'auto',
-        marginBottom: theme.spacing(2),
+        marginBottom: 6,
+    },
+});
+
+const getTheme = (mode) => createTheme({
+    palette: {
+        secondary: { light: '#80e27e', main: '#4caf50', dark: '#087f23', contrastText: '#fff' },
+        primary: { light: '#8559da', main: '#512da8', dark: '#140078', contrastText: '#000' },
+        mode,
+        type: mode, // for legacy support
     },
 });
 
@@ -117,7 +126,7 @@ class OI4Base extends React.Component {
             this.port = serviceEndpoint.port || 5799;
             let raw = serviceEndpoint.address;
 
-            if (!raw.startsWith('http://') || !raw.startsWith('https://')) {
+            if (!raw.startsWith('http://') || !raw.startsWith('https://')) { // !!
                 raw = `https://${raw}`;
             }
             if(raw.slice(6).indexOf(':') === -1) {
@@ -151,7 +160,7 @@ class OI4Base extends React.Component {
                 showRegistry: true,
                 developmentMode: false,
             },
-            theme: lightTheme,
+            //theme: lightTheme,
             darkActivated: false,
             smallLogo: oi4SmallLogoLight,
             bigLogo: oi4BigLogoLight,
@@ -291,6 +300,7 @@ class OI4Base extends React.Component {
      * @memberof OI4Base
      */
     render() {
+        const theme = getTheme(this.state.darkActivated ? 'dark' : 'light');
         const {classes} = this.props;
         // const filteredTrail = this.state.globalEventTrail // TODO: Maybe get this to another place?
         //   .filter((item) => {
@@ -311,7 +321,7 @@ class OI4Base extends React.Component {
 
         return (
             <React.Fragment>
-                <MuiThemeProvider theme={this.state.theme}>
+                <ThemeProvider theme={theme}>
                     <CssBaseline/>
                     <div className={classes.root}>
                         <AppBar position='static' color='inherit'>
@@ -367,7 +377,7 @@ class OI4Base extends React.Component {
                                 listOfAssets={this.state.listOfApps}
                                 conformityLookup={this.state.conformityLookup}
                                 updateConformity={this.updateConformity.bind(this)}
-                                fontColor={this.state.theme.palette.text.default}
+                                fontColor={theme.palette.text?.default}
                                 updatingConformity={this.state.updatingConformity}
                                 expertMode={this.state.backendConfig.developmentMode}
                                 clearAsset={this.clearAssetById.bind(this)}
@@ -404,7 +414,7 @@ class OI4Base extends React.Component {
                   /> */}
                                 </AccordionSummary>
                                 <AccordionDetails className={classes.paper}>
-                                    {this.displayGlobalEvents(this.state.globalEventTrail)}
+                                    {this.displayGlobalEvents(this.state.globalEventTrail, theme)}
                                 </AccordionDetails>
                             </Accordion>
 
@@ -421,7 +431,7 @@ class OI4Base extends React.Component {
                             bigLogo={this.state.bigLogo}
                         />
                     </div>
-                </MuiThemeProvider>
+                </ThemeProvider>
             </React.Fragment>
         );
     }
@@ -454,28 +464,22 @@ class OI4Base extends React.Component {
      * @memberof OI4Base
      */
     toggleTheme() {
-        if (this.state.darkActivated) {
-            this.setState({
-                darkActivated: false,
-                theme: lightTheme,
-                smallLogo: oi4SmallLogoLight,
-                bigLogo: oi4BigLogoLight
-            });
-        } else {
-            this.setState({
-                darkActivated: true,
-                theme: darkTheme,
-                smallLogo: oi4SmallLogoDark,
-                bigLogo: oi4BigLogoDark
-            });
-        }
+        this.setState((prevState) => {
+            const darkActivated = !prevState.darkActivated;
+            return {
+                darkActivated,
+                smallLogo: darkActivated ? oi4SmallLogoDark : oi4SmallLogoLight,
+                bigLogo: darkActivated ? oi4BigLogoDark : oi4BigLogoLight
+            };
+        });
     }
 
     /**
      * Displays the Events / Events coming from either global or local data sources
      * @param {array} eventArray - an array of the last few events
+     * @param {object} theme - the current MUI theme
      */
-    displayGlobalEvents(eventArray) {
+    displayGlobalEvents(eventArray, theme) {
         const newArray = [];
         eventArray.forEach(items => {
             newArray.push({
@@ -547,6 +551,7 @@ class OI4Base extends React.Component {
             if (eventArray.length !== 0) {
                 return (
                     <MaterialTable
+                        theme={theme}
                         columns={[
                             {title: "Level", field: "level", width: '8%', cellStyle: {wordBreak: 'break-all'}},
                             {title: "Number", field: "number", width: '8%', cellStyle: {wordBreak: 'break-all'}},
@@ -885,8 +890,8 @@ class OI4Base extends React.Component {
         const regConfData = await this.retrieveBackendConfig();
         if(!regConfData) return;
         const backendConfig = {
-            showRegistry: regConfData.registry.showRegistry.value === 'true',
-            developmentMode: regConfData.registry.developmentMode.value === 'true',
+            showRegistry: regConfData.Registry.ShowRegistry.Value === 'true',         
+            developmentMode: regConfData.Registry.DevelopmentMode.Value === 'true',
         };
         this.setState({backendConfig: backendConfig});
     }

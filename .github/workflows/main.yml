@@ -1,4 +1,4 @@
-name: release
+name: Release registry image
 
 env:
   CI: true
@@ -11,41 +11,42 @@ on:
 jobs:
   release:
     name: Setup
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: setup Node
-        uses: actions/setup-node@v2
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6.1.0
         with:
-          node-version: 16.x
+          node-version: 20
           registry-url: 'https://npm.pkg.github.com'
-      - name: install
+
+      - name: Restore dependencies
         run: |
           yarn install
-      # Build packages
-      - name: build
+
+      - name: Build packages
         run: |
           yarn build
-      # No test so far -> skip them for now
-      #- name: test
-      #  run: npm test
-      # Publish to github docker repo if this version is not published
+
       - name: Prepare Docker build
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
           npm run docker:prepare
           docker buildx inspect --bootstrap
+
       - name: Docker Login
-        run: echo ${{ secrets.OI4_REGISTRY_GITHUB_ACTION }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
       - name: Docker Build & Push
         run: npm run docker:build
         env:
-          PACKAGES_AUTH_TOKEN: ${{ secrets.OI4_REGISTRY_GITHUB_ACTION }}
-      # Push tag to GitHub if package.json version's tag is not tagged
+          PACKAGES_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: package-version
         run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
-      # Create GitHub Repo tag
+
       - name: package-version-to-git-tag
         uses: pkgdeps/git-tag-action@v2
         with:
@@ -54,9 +55,9 @@ jobs:
           version: ${{ env.PACKAGE_VERSION }}
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
-      # Create GitHub Repo release
+
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2.5.0
         with:
           body_path: RELEASE_NOTES.md
           tag_name: v${{ env.PACKAGE_VERSION }}

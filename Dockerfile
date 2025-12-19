@@ -1,4 +1,4 @@
-FROM node:20-alpine as build_base
+FROM node:20-alpine AS build_base
 
 # -------INSTALL OPENSSL
 RUN apk add --update openssl && rm -rf /var/cache/apk/*
@@ -21,7 +21,7 @@ WORKDIR /usr/packages/oi4-registry-service
 # COPY logs directory
 RUN mkdir -p logs
 
-LABEL org.opencontainers.image.source=https://github.com/OI4/oi4-oec-registry
+LABEL org.opencontainers.image.source=https://github.com/gabor-kovac/oec-registry
 
 EXPOSE 5798 5799
 RUN chmod +x "scripts/entrypoint.sh"

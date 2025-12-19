@@ -1,4 +1,4 @@
-name: snapshot
+name: Build registry image snapshot
 
 env:
   CI: true
@@ -11,34 +11,36 @@ on:
 jobs:
   snapshot:
     name: Setup
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.0.4
     steps:
-      - name: checkout
+      - name: Checkout source
         uses: actions/checkout@v4
-      - name: setup Node
-        uses: actions/setup-node@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v6.1.0
         with:
-          node-version: 20.x
-      - name: install
+          node-version: 20
+
+      - name: Restore dependencies
         run: |
           yarn install
-      # Build packages
-      - name: build
+
+      - name: Build packages
         run: |
           yarn build
-      # No test so far -> skip them for now
-      #- name: test
-      #  run: npm test
-      # Publish to Docker Hub if this version is not published
+
       - name: Prepare Docker build
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
           npm run docker:prepare
           docker buildx inspect --bootstrap
+
       - name: Docker Login
-        uses: docker/login-action@v3
+        uses: docker/login-action@v3.6.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Docker Build & Push
         run: npm run docker:build:snapshot

@@ -13,8 +13,7 @@ import {
   Tabs,
   Tab,
   Box,
-  // InputAdornment,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import namur_normal_0 from '../Images/namur_normal_0.png';
 import namur_failure_1 from '../Images/namur_failure_1.png';

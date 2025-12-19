@@ -1,12 +1,12 @@
 {
-  "name": "@oi4/oi4registry",
-  "version": "1.1.0-preview.9",
-  "description": "A registry that keeps track of all running Open Industry 4.0 Alliance application",
+  "name": "@gabor-kovac/oec-registry",
+  "version": "1.1.1",
+  "description": "Registry and discovery UI for OI4 OEC devices",
   "author": "Open Industry 4.0 Alliance - Community",
   "license": "MIT",
   "private": true,
   "keywords": [],
-  "repository": "git@github.com:OI4/oi4-registry.git",
+  "repository": "git@github.com:gabor-kovac/oec-registry.git",
   "workspaces": [
     "packages/*"
   ],
@@ -29,10 +29,10 @@
     "prepareContainer": "./scripts/prepare_container.sh",
     "testLocalUI": "echo \"Check your browser for port 5000\" && npx serve packages/oi4-local-ui/build -s",
     "buildLocalUI": "cd ./packages/oi4-local-ui && npm run build",
-    "docker:prepare": "docker buildx create --name oi4-builder --driver docker-container --use --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6",
-    "docker:build": "yarn run prepareContainer && docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 -t docker.io/oi4a/oi4-oec-registry:${npm_package_version} .",
-    "docker:build:local": "yarn run prepareContainer && docker build -t docker.io/oi4a/oi4-oec-registry:${npm_package_version} -t docker.io/oi4a/oi4-oec-registry:latest .",
-    "docker:build:snapshot": "yarn run prepareContainer && docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 -t docker.io/oi4a/oi4-oec-registry:${npm_package_version} -t docker.io/oi4a/oi4-oec-registry:latest .",
+    "docker:prepare": "docker buildx create --name oi4-builder --driver docker-container --use --platform linux/amd64,linux/arm64,linux/arm/v7",
+    "docker:build": "yarn run prepareContainer && docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm/v7 -t ghcr.io/gabor-kovac/oec-registry:${npm_package_version} .",
+    "docker:build:local": "yarn run prepareContainer && docker build -t ghcr.io/gabor-kovac/oec-registry:${npm_package_version} -t ghcr.io/gabor-kovac/oec-registry:latest .",
+    "docker:build:snapshot": "yarn run prepareContainer && docker buildx build --push --platform linux/amd64,linux/arm64,linux/arm/v7 -t ghcr.io/gabor-kovac/oec-registry:${npm_package_version} -t ghcr.io/gabor-kovac/oec-registry:latest .",
 
     "serveLocalUI": "cd ./packages/oi4-local-ui && serve build/",
     "buildAll": "cd ./packages/oi4-local-ui && npm run build && cd ../packages/oi4-registry-service && npm run tsc && cd ..",

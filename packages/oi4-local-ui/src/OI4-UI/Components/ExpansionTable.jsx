@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {withStyles} from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 
 import aas_img from '../Images/OI4_AAS_logo.png';
 import namur_normal_0 from '../Images/namur_normal_0.png';
@@ -13,26 +13,29 @@ import PropTypes from 'prop-types';
 
 import MaterialTable from 'material-table';
 
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Collapse,
-  Grid,
-  IconButton,
-  InputAdornment,
-  Snackbar,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Collapse from '@mui/material/Collapse';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Snackbar from '@mui/material/Snackbar';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
-import {Close, Delete, ExpandLess, ExpandMore, FileCopy, Search,} from '@material-ui/icons';
+import Close from '@mui/icons-material/Close';
+import Delete from '@mui/icons-material/Delete';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import FileCopy from '@mui/icons-material/FileCopy';
+import Search from '@mui/icons-material/Search';
 
 import ExpansionTableDetail from './ExpansionTableDetail.jsx';
 
@@ -40,7 +43,7 @@ const styles = theme => ({
   table: {
   },
   tableInside: {
-    padding: theme.spacing(2),
+    padding: 8,
     fontWeight: 100,
     minHeight: '100vh',
     fontSize: 'calc(5px + 1vmin)',
@@ -382,6 +385,7 @@ class ExpansionTable extends React.Component {
       if (eventArray.length !== 0) {
         return (
             <MaterialTable
+                theme={this.state.theme}
                 columns={[
                   { title: "Level", field: "level", width: '8%', cellStyle: { wordBreak: 'break-all' } },
                   { title: "Number", field: "number", width: '8%', cellStyle: { wordBreak: 'break-all' } },

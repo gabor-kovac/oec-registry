@@ -6,7 +6,7 @@ import {EValidity} from '@oi4/oi4-oec-service-conformity-validator';
 let objectUnderTest: AssetLookup;
 const asset1: IAsset = {
     resources: {
-        mam: {
+        MAM: {
             Description: {Locale: EOPCUALocale.enUS, Text: 'Test device'},
             DeviceClass: 'Oi4.OTConnector',
             DeviceManual: 'www.vendor.com/manual.pdf',

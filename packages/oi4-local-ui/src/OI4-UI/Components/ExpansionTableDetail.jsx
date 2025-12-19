@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 
 import namur_normal_0 from '../Images/namur_normal_0.png';
 import namur_failure_1 from '../Images/namur_failure_1.png';
@@ -10,20 +10,16 @@ import namur_maintenance_required_4 from '../Images/namur_maintenance_required_4
 
 import PropTypes from 'prop-types';
 
-import {
-  Paper,
-  IconButton,
-  Grid,
-  CircularProgress,
-  Tooltip,
-  Snackbar
-} from '@material-ui/core';
+import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
+import Snackbar from '@mui/material/Snackbar';
+import Tooltip from '@mui/material/Tooltip';
 
-import {
-  Refresh,
-  FileCopy,
-  Close,
-} from '@material-ui/icons';
+import CloseIcon from '@mui/icons-material/Close';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const styles = theme => ({
   paper: {
@@ -92,7 +88,7 @@ class ExpansionTableDetail extends React.Component {
                         });
                       }}
                   >
-                    <FileCopy />
+                    <FileCopyIcon />
                   </IconButton>
                 </Tooltip>
                 <Snackbar
@@ -107,7 +103,7 @@ class ExpansionTableDetail extends React.Component {
                     action={
                       <>
                         <IconButton size='small' color='inherit' onClick={() => { this.setState({ copySnackOpen: false }) }}>
-                          <Close fontSize='small' />
+                          <CloseIcon fontSize='small' />
                         </IconButton>
                       </>
                     }
@@ -129,7 +125,7 @@ class ExpansionTableDetail extends React.Component {
             <h3>Conformity Validation:
               <Tooltip title='Refresh conformity'>
                 <IconButton size='small' color='default' onClick={() => { this.props.updateConformity(this.props.asset.topicPreamble, this.props.oi4Id) }}>
-                  <Refresh />
+                  <RefreshIcon />
                 </IconButton>
               </Tooltip>
             </h3>

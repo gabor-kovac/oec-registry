@@ -1,6 +1,7 @@
 {
-  "name": "@oi4/oi4-local-ui",
-  "version": "1.1.0-preview.9",
+  "name": "@gabor-kovac/oi4-local-ui",
+  "version": "1.1.1",
+  "description": "Frontend React UI for OI4 OEC Registry",
   "author": "Open Industry 4.0 Alliance - Community",
   "license": "MIT",
   "private": false,
@@ -11,21 +12,20 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:OI4/oi4-conformity-validator-base.git"
+    "url": "git@github.com:gabor-kovac/oec-registry.git"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.3.0",
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
-    "@mui/icons-material": "^6.1.10",
-    "@mui/lab": "^5.0.0-alpha.173",
-    "@mui/material": "^5.16.7",
-    "@mui/styles": "^5.16.7",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^5.14.17",
+    "@mui/icons-material": "^5.14.17",
+    "@mui/styles": "^5.14.17",
+    "@mui/lab": "^5.0.0-alpha.125",
     "cockpit": "^0.1.1",
+    "lerna": "^9.0.3",
     "lodash": "^4.17.15",
     "material-table": "^2.0.5",
     "react": "^18.2.0",
@@ -33,6 +33,7 @@
     "react-scripts": "5.0.1"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "http-server": "^0.13.0",
     "serve": "^11.3.0"
   },
