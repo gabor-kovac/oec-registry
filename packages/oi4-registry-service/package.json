@@ -1,6 +1,6 @@
 {
   "name": "@gabor-kovac/oi4-registry-service",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Backend service OI4 registry",
   "author": "Open Industry 4.0 Alliance - Community",
   "license": "MIT",
