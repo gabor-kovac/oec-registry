@@ -35,7 +35,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import FileCopy from '@mui/icons-material/FileCopy';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import MaterialTable from 'material-table';
+import { DataGrid } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
@@ -549,61 +549,67 @@ class OI4Base extends React.Component {
             //     </TableBody>
             //   </Table></>;
             if (eventArray.length !== 0) {
+                const columns = [
+                    { field: 'level', headerName: 'Level', width: 100, flex: 0.5 },
+                    { field: 'number', headerName: 'Number', width: 100, flex: 0.5 },
+                    { field: 'category', headerName: 'Category', width: 150, flex: 1 },
+                    { field: 'description', headerName: 'Description', width: 200, flex: 2 },
+                    { field: 'details', headerName: 'Details', width: 200, flex: 2 }
+                ];
+                const rows = newArray.map((row, index) => ({ ...row, id: index }));
                 return (
-                    <MaterialTable
-                        theme={theme}
-                        columns={[
-                            {title: "Level", field: "level", width: '8%', cellStyle: {wordBreak: 'break-all'}},
-                            {title: "Number", field: "number", width: '8%', cellStyle: {wordBreak: 'break-all'}},
-                            {title: "Category", field: "category", width: '13%', cellStyle: {wordBreak: 'break-all'}},
-                            {
-                                title: "Description",
-                                field: "description",
-                                width: '0px',
-                                cellStyle: {wordBreak: 'break-all'}
-                            },
-                            {title: 'Details', field: 'details', cellStyle: {wordBreak: 'break-all'}}
-                        ]}
-                        style={{minWidth: '100%'}}
-                        data={newArray}
-                        title={<span style={{marginRight: '1%'}}>
-              <Tooltip title="Copy to clipboard">
-                <IconButton
-                    size='small'
-                    color='default'
-                    onClick={() => {
-                        navigator.clipboard.writeText(JSON.stringify(eventArray, null, 2)).then(() => {
-                            this.setState({copySnackOpen: true});
-                        });
-                    }}
-                >
-                  <FileCopy/>
-                </IconButton>
-              </Tooltip>
-              <Snackbar
-                  open={this.state.copySnackOpen}
-                  anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                  }}
-                  onClose={() => {
-                      this.setState({copySnackOpen: false});
-                  }}
-                  autoHideDuration={4000}
-                  message='Saved Global Events to clipboard'
-                  action={
-                      <>
-                          {/* eslint-disable-next-line react/jsx-first-prop-new-line */}
-                          <IconButton size='small' color='inherit' onClick={() => {
-                              this.setState({copySnackOpen: false})
-                          }}>
-                              <Close fontSize='small'/>
-                          </IconButton>
-                      </>
-                  }
-              />
-            </span>}
-                    />);
+                    <Box sx={{ height: 400, width: '100%' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                            <span style={{ marginRight: '1%' }}>
+                                <Tooltip title="Copy to clipboard">
+                                    <IconButton
+                                        size='small'
+                                        color='default'
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(JSON.stringify(eventArray, null, 2)).then(() => {
+                                                this.setState({copySnackOpen: true});
+                                            });
+                                        }}
+                                    >
+                                        <FileCopy/>
+                                    </IconButton>
+                                </Tooltip>
+                                <Snackbar
+                                    open={this.state.copySnackOpen}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                    onClose={() => {
+                                        this.setState({copySnackOpen: false});
+                                    }}
+                                    autoHideDuration={4000}
+                                    message='Saved Global Events to clipboard'
+                                    action={
+                                        <>
+                                            <IconButton size='small' color='inherit' onClick={() => {
+                                                this.setState({copySnackOpen: false})
+                                            }}>
+                                                <Close fontSize='small'/>
+                                            </IconButton>
+                                        </>
+                                    }
+                                />
+                            </span>
+                        </Box>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: { page: 0, pageSize: 10 },
+                                },
+                            }}
+                            pageSizeOptions={[5, 10, 25]}
+                            disableRowSelectionOnClick
+                        />
+                    </Box>
+                );
             } else {
                 return <h3>No items in event list...</h3>;
             }

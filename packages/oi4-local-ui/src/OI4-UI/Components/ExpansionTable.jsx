@@ -11,11 +11,12 @@ import namur_maintenance_required_4 from '../Images/namur_maintenance_required_4
 
 import PropTypes from 'prop-types';
 
-import MaterialTable from 'material-table';
+import { DataGrid } from '@mui/x-data-grid';
 
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
+import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
@@ -383,19 +384,18 @@ class ExpansionTable extends React.Component {
     });
     if (Array.isArray(eventArray)) {
       if (eventArray.length !== 0) {
+        const columns = [
+          { field: 'level', headerName: 'Level', width: 100, flex: 0.5 },
+          { field: 'number', headerName: 'Number', width: 100, flex: 0.5 },
+          { field: 'category', headerName: 'Category', width: 150, flex: 1 },
+          { field: 'description', headerName: 'Description', width: 200, flex: 2 },
+          { field: 'details', headerName: 'Details', width: 200, flex: 2 }
+        ];
+        const rows = newArray.map((row, index) => ({ ...row, id: index }));
         return (
-            <MaterialTable
-                theme={this.state.theme}
-                columns={[
-                  { title: "Level", field: "level", width: '8%', cellStyle: { wordBreak: 'break-all' } },
-                  { title: "Number", field: "number", width: '8%', cellStyle: { wordBreak: 'break-all' } },
-                  { title: "Category", field: "category", width: '13%', cellStyle: { wordBreak: 'break-all' } },
-                  { title: "Description", field: "description", width: '0px', cellStyle: { wordBreak: 'break-all' } },
-                  { title: 'Details', field: 'details', cellStyle: { wordBreak: 'break-all' } }
-                ]}
-                style={{ minWidth: '100%' }}
-                data={newArray}
-                title={<span>{`Last ${eventArray.length} Events:`}
+            <Box sx={{ height: 400, width: '100%' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                <span>{`Last ${eventArray.length} Events:`}
                   <span style={{ marginRight: '1%' }}>
                 <Tooltip title="Copy to clipboard">
                   <IconButton
@@ -427,9 +427,25 @@ class ExpansionTable extends React.Component {
                       </>
                     }
                 />
-              </span>
-            </span>}
-            />);
+              </span></span>
+              </Box>
+              <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  initialState={{
+                    pagination: {
+                      paginationModel: { page: 0, pageSize: 10 },
+                    },
+                  }}
+                  pageSizeOptions={[5, 10, 25]}
+                  sx={{
+                    '& .MuiDataGrid-cell': {
+                      wordBreak: 'break-all',
+                    },
+                  }}
+              />
+            </Box>
+        );
       } else {
         return <h3>No items in event list...</h3>;
       }
