@@ -10,7 +10,7 @@ on:
       - "!*"
 jobs:
   release:
-    name: Setup
+    name: Create release artifact
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout source

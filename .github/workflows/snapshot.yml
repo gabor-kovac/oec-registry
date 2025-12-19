@@ -10,8 +10,8 @@ on:
       - "!*"
 jobs:
   snapshot:
-    name: Setup
-    runs-on: ubuntu-24.0.4
+    name: Create snapshot artifact
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
