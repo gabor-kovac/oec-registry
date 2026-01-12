@@ -1,5 +1,6 @@
 import express = require('express');
 import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../../../public/api/openapi.json';
 
 export class Swagger
 {
@@ -11,13 +12,9 @@ export class Swagger
 
     public initSwagger(): void {
         this._client.use(express.static('public'));
-        const options = {
-            swaggerOptions: {
-                url: '/api/openapi.json',
-            },
-            customCss: '.swagger-ui .topbar { display: none }'
-        };
-
-        this._client.use('/api', swaggerUi.serveFiles(null, options), swaggerUi.setup(null, options));
+        // Workaround for type incompatibility between swagger-ui-express and express
+        const serve = (swaggerUi.serve as unknown as express.RequestHandler);
+        const setup = (swaggerUi.setup(swaggerDocument) as unknown as express.RequestHandler);
+        this._client.use('/api', serve, setup);
     }
 }

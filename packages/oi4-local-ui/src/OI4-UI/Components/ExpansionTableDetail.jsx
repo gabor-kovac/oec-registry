@@ -23,9 +23,9 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 
 const styles = theme => ({
   paper: {
-    padding: theme.spacing(1),
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+    padding: 8,
+    marginTop: 8,
+    marginBottom: 8,
     overflowX: 'auto',
   },
 });

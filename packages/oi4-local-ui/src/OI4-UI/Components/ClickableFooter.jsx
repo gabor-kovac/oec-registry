@@ -56,7 +56,7 @@ export class ClickableFooter extends React.Component {
    * @memberof OI4Base
    */
   render() {
-    const url = `https://${this.props.fetch.address}:${this.props.fetch.port}`;
+    const url = `${this.props.fetch.address}`;
     // const url = 'https://' + this.props.fetch.address + ':' + this.props.fetch.port;
     return (<Fragment>
           <Dialog
