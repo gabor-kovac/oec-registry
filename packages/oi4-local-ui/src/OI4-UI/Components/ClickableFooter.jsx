@@ -100,7 +100,7 @@ export class ClickableFooter extends React.Component {
                     The refresh button will initiate a new conformity check.
                   </p>
                   <p>
-                    OI4 Registry web service location: <a href={url}>{url}</a>
+                    OI4 Registry web service location: <a target="_blank" rel="noreferrer" href={url}>{url}</a>
                   </p>
                 </DialogContent>
               </TabPanel>

@@ -125,10 +125,8 @@ class OI4Base extends React.Component {
         if (typeof serviceEndpoint === 'object' && serviceEndpoint !== null) {
             this.port = serviceEndpoint.port || 5799;
             let raw = serviceEndpoint.address;
-
-            if (!raw.startsWith('http://') || !raw.startsWith('https://')) { // !!
-                raw = `https://${raw}`;
-            }
+            let protocol = window.location.protocol;
+            raw = `${protocol}//${raw}`;
             if(raw.slice(6).indexOf(':') === -1) {
                 raw += `:${this.port}`;
             }
